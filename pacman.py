@@ -12,6 +12,7 @@ class Shard():
         self.sprite = sprite
         self.image = image
         
+        
 
 def change_screen_shard_collected(screen, width, height):
     screen = pygame.display.set_mode([width, height])
