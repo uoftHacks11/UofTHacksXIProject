@@ -66,6 +66,9 @@ startup_counter = 0
 lives = 3
 game_over = False
 game_won = False
+img_pp = pygame.image.load("photo_piece.png").convert_alpha()
+img_pp = pygame.transform.scale(img_pp, (30,30))
+mute = False
 
 # Each Ghost's class, each ghost has its own movement, this can be changed to just one movement way
 
@@ -730,7 +733,11 @@ def draw_board():
                                 2 * PI, 3)
             if level[i][j] == 9:
                 pygame.draw.line(screen, 'white', (j * num2, i * num1 + (0.5 * num1)),
-                                 (j * num2 + num2, i * num1 + (0.5 * num1)), 3)
+                                 (j * num2 + num2, i * num1 + (0.5 * num1)), 3)  
+            if level[i][j] == 10:
+                # pygame.draw.circle(screen, 'aqua', (j * num2 + (0.5 * num2), i * num1 + (0.5 * num1)), 4)
+                screen.blit(img_pp, (j * num2, i * num1))
+                
 
 
 def draw_player():
@@ -897,7 +904,8 @@ while run:
     
     current_time = pygame.time.get_ticks()
     if current_time - last_play_time >= delay_duration:
-        sound.play()
+        if not mute:
+            sound.play()
         last_play_time = current_time
     
     timer.tick(fps)
@@ -1210,6 +1218,8 @@ while run:
                 direction_command = direction
             if event.key == pygame.K_DOWN and direction_command == 3:
                 direction_command = direction
+            if event.key == pygame.K_m:
+                mute = not mute
 
     if direction_command == 0 and turns_allowed[0]:
         direction = 0
