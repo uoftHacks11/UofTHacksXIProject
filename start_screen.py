@@ -3,26 +3,41 @@ import sys
 import pacman
 # TODO: import view photo files
 
-# pygame.init()
+pygame.init()
+
+SCREEN = pygame.display.set_mode([900, 950])
+pygame.display.set_caption("Menu")
 
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/fonts/font.ttf", size)
 
-def main_menu(screen, root):
-    screen = pygame.display.set_mode([900, 950])
-    pygame.display.set_caption("Menu")
+def get_logo(size):
+    return pygame.font.Font("assets/fonts/pacman_font.TTF", size)
+
+
+def main_menu():
     
     MENU_TEXT = get_font(85).render("MAIN MENU", True, "White")
-    MENU_RECT = MENU_TEXT.get_rect(center=(450, 100))
+    MENU_RECT = MENU_TEXT.get_rect(center=(450, 330))
+
+    LOGO_TEXT = get_logo(100).render("TU-PAC", True, "Yellow")
+    LOGO_RECT = LOGO_TEXT.get_rect(center=(450, 180))
 
     START_TEXT = get_font(50).render("START[S]", True, "Blue")
-    START_RECT = START_TEXT.get_rect(center=(450, 450))
+    START_RECT = START_TEXT.get_rect(center=(450, 500))
     PHOTOS_TEXT = get_font(50).render("VIEW PHOTOS[P]", True, "Blue")
-    PHOTOS_RECT = PHOTOS_TEXT.get_rect(center=(450, 550))
+    PHOTOS_RECT = PHOTOS_TEXT.get_rect(center=(450, 600))
 
-    screen.blit(MENU_TEXT, MENU_RECT)
-    screen.blit(START_TEXT, START_RECT)
-    screen.blit(PHOTOS_TEXT, PHOTOS_RECT)
+    LOGO_PIC = pygame.image.load("assets/logo.png").convert()
+    LOGO_PIC = pygame.transform.scale(LOGO_PIC, (300, 300))
+
+    SCREEN.blit(MENU_TEXT, MENU_RECT)
+    SCREEN.blit(LOGO_TEXT, LOGO_RECT)
+    SCREEN.blit(START_TEXT, START_RECT)
+    SCREEN.blit(PHOTOS_TEXT, PHOTOS_RECT)
+    SCREEN.blit(LOGO_PIC, LOGO_PIC.get_rect(center=(450, 780)))
+
+    
     run = True
     while run:
         for event in pygame.event.get():
@@ -30,10 +45,12 @@ def main_menu(screen, root):
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    pacman.run_game() # root goes here
+                    pacman.run_game()
                 elif event.key == pygame.K_p:
                     # xxx.run()
                     # TODO: show photos
                     pass
         pygame.display.update()
         pygame.display.flip()
+
+main_menu()
