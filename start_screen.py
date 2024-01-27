@@ -3,15 +3,14 @@ import sys
 import pacman
 # TODO: import view photo files
 
-pygame.init()
-
-SCREEN = pygame.display.set_mode([900, 950])
-pygame.display.set_caption("Menu")
+# pygame.init()
 
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/fonts/font.ttf", size)
 
-def main_menu():
+def main_menu(screen):
+    screen = pygame.display.set_mode([900, 950])
+    pygame.display.set_caption("Menu")
     
     MENU_TEXT = get_font(85).render("MAIN MENU", True, "White")
     MENU_RECT = MENU_TEXT.get_rect(center=(450, 100))
@@ -21,9 +20,9 @@ def main_menu():
     PHOTOS_TEXT = get_font(50).render("VIEW PHOTOS[P]", True, "Blue")
     PHOTOS_RECT = PHOTOS_TEXT.get_rect(center=(450, 550))
 
-    SCREEN.blit(MENU_TEXT, MENU_RECT)
-    SCREEN.blit(START_TEXT, START_RECT)
-    SCREEN.blit(PHOTOS_TEXT, PHOTOS_RECT)
+    screen.blit(MENU_TEXT, MENU_RECT)
+    screen.blit(START_TEXT, START_RECT)
+    screen.blit(PHOTOS_TEXT, PHOTOS_RECT)
     run = True
     while run:
         for event in pygame.event.get():
@@ -38,5 +37,3 @@ def main_menu():
                     pass
         pygame.display.update()
         pygame.display.flip()
-
-main_menu()

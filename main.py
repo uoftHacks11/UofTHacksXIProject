@@ -5,6 +5,7 @@ from pacman import run_game
 from board import boards, test_board, randomize_board
 from generate import create_game_tree, populate_tree, print_tree
 from image_captioning import predict_step
+import start_screen
 
 WIDTH = 900
 HEIGHT = 950
@@ -39,7 +40,7 @@ if __name__ == "__main__":
 
     padding = 30
     loading_text = font.render('Loading...', True, color)
-    text2 = font.render('Analyzing Imgaes...', True, color)
+    text2 = font.render('Analyzing Images...', True, color)
     text3 = font.render('Extracting Memories...', True, color)
     text_rect = loading_text.get_rect(center=(center[0], center[1] + radius - 10)) 
     screen.blit(loading_text, text_rect)
@@ -51,15 +52,37 @@ if __name__ == "__main__":
     root = create_game_tree(imgs)
     loadingComplete = populate_tree(root, captions)
 
+    # loadingComplete = False
+
+    # while not loadingComplete:
+    #     for event in pygame.event.get():
+    #         if event.type == pygame.QUIT:
+    #             pygame.quit()
+    #             sys.exit()
+
+    #     # Update the screen with loading information
+    #     screen.fill((0, 0, 0))
+    #     screen.blit(loading_text, text_rect)
+    #     screen.blit(text2, text2.get_rect(center=(center[0], center[1] + radius + 20)))
+    #     screen.blit(text3, text3.get_rect(center=(center[0], center[1] + radius + 50)))
+    #     pygame.display.flip()
+
+    #     # Populate the tree and check if loading is complete
+    #     loadingComplete = populate_tree(root, captions)
+
+    #     # Delay to give time for the screen update
+    #     clock.tick(60)
+
         # angle = (angle + 5) % 360
 
         # if pygame.time.get_ticks() - start_time > loading_duration:
         #     loadingComplete = True
         # clock.tick(60)
 
-    root = create_game_tree(imgs)
-    loadingComplete = populate_tree(root, captions)
+    # root = create_game_tree(imgs)
+    # loadingComplete = populate_tree(root, captions)
     
     # print_tree(root)
         
-    run_game()
+    # run_game()
+    start_screen.main_menu(screen)
