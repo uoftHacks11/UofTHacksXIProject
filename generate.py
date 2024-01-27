@@ -132,6 +132,8 @@ def create_game_tree(imgs):
     root.left.left, root.left.right = Node(imgs[2], '', 2, 'lose'), Node(imgs[2], '', 2, 'right')
     root.right.left, root.right.right = Node(imgs[2], '', 2, 'lose'), Node(imgs[2], '', 2, 'right')
 
+    print("Creation completed.")
+
     return root
 
 
@@ -149,6 +151,8 @@ class Node:
 
 def populate_tree(root, captions):
     # assume generate_text generates winning text
+    print("Population begun.")
+
     gen = process_co_output(generate_text(captions))
 
     root.caption, root.val = captions[0], gen[0]
@@ -164,6 +168,10 @@ def populate_tree(root, captions):
 
     gen_remaining = process_co_output(generate_text_level_three(captions, gen_left_from_root[:2]))
     root.left.left.caption, root.left.left.val = captions[2], gen_remaining[2]
+
+    print('Population completed.')
+
+    return True
 
 # def _expand_tree(node, current_level, max_level):
 #     if current_level == max_level:
