@@ -3,6 +3,7 @@ import copy
 from board import boards
 import pygame
 import math
+from tree import Story, Tree
 
 pygame.init()
 
