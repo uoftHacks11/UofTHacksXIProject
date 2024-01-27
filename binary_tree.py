@@ -4,5 +4,5 @@ class Node:
         self.val = val      # string/story for this image
         self.level = level  # depth [0, 1, or 2]
         self.state = state  # win/lose for all levels except 0
-        self.left = None 
-        self.right = None
+        self.left = None    # lose
+        self.right = None   # win
