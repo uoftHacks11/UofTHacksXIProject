@@ -798,6 +798,7 @@ def move_player(play_x, play_y):
         play_y -= player_speed
     elif direction == 3 and turns_allowed[3]:
         play_y += player_speed
+    
     return play_x, play_y
 
 
@@ -882,6 +883,11 @@ def get_targets(blink_x, blink_y, ink_x, ink_y, pink_x, pink_y, clyd_x, clyd_y):
 
 run = True
 while run:
+    pygame.init
+    pygame.mixer.init()
+    sound = pygame.mixer.Sound('pacman_chomp.wav')
+
+    sound.play()
     timer.tick(fps)
     if counter < 19:
         counter += 1
