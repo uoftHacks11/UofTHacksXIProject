@@ -46,23 +46,23 @@ def create_game_tree(root_val, max_level):
     return root
 
 def _expand_tree(node, current_level, max_level):
-    if current_level > max_level:
+    if current_level == max_level:
         return
 
     win_story = generate_text(f"Win story for level {current_level - 1}")
     lose_story = generate_text(f"Lose story for level {current_level - 1}")
 
-    node.left = Node(win_story, current_level, 'win')
-    node.right = Node(lose_story, current_level, 'lose')
+    node.left = Node(generate_text(prompt + ""), current_level + 1, 'win')
+    node.right = Node(generate_text(prompt + ""), current_level + 1, 'lose')
 
-    _expand_tree(node.left, current_level + 1, max_level)
-    _expand_tree(node.right, current_level + 1, max_level)
+    # _expand_tree(node.left, current_level + 1, max_level)
+    # _expand_tree(node.right, current_level + 1, max_level)
 
 def print_game_tree(node, path=[]):
     if node:
         path.append((node.val, node.state))
         if node.left is None and node.right is None:
-            print(" -> ".join([f"{p[0]} ({p[1]})" for p in path]))
+            print("".join([f"{p[0]}" for p in path]))
         else:
             print_game_tree(node.left, path.copy())
             print_game_tree(node.right, path.copy())
