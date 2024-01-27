@@ -31,6 +31,11 @@ def change_screen_shard_collected(screen, width, height, shard_list):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_r:  
                     cont = False
+
+        screen.blit(image, (0, 0))
+        pygame.display.update()
+
+    return None
 # =======
 # def change_screen_shard_collected(screen, width, height):
 #     screen = pygame.display.set_mode([width, height])
@@ -60,11 +65,6 @@ def change_screen_shard_collected(screen, width, height, shard_list):
 # #                 if event.key == pygame.K_r: 
 # #                     cont = False
 # >>>>>>> develop
-
-#         screen.blit(image, (0, 0))
-#         pygame.display.update()
-
-#     return None
 
 
 def run_game(board = None):
