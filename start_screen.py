@@ -8,7 +8,7 @@ import pacman
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/fonts/font.ttf", size)
 
-def main_menu(screen):
+def main_menu(screen, root):
     screen = pygame.display.set_mode([900, 950])
     pygame.display.set_caption("Menu")
     
@@ -30,7 +30,7 @@ def main_menu(screen):
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    pacman.run_game()
+                    pacman.run_game() # root goes here
                 elif event.key == pygame.K_p:
                     # xxx.run()
                     # TODO: show photos

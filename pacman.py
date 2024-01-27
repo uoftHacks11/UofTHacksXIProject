@@ -15,12 +15,13 @@ class Shard():
         self.sprite = sprite
         self.image = image
         self.split = split # split in ["left", "right", "up", "down"]
+        #self.text = text
         
 
 def change_screen_shard_collected(screen, width, height, shard_list):
     global SPLIT_COUNT
     screen = pygame.display.set_mode([width, height])
-    image = shard_list[SPLIT_COUNT]
+    image = shard_list[SPLIT_COUNT].image
     SPLIT_COUNT -= 1
                 
     cont = True
@@ -135,13 +136,13 @@ def run_game(board = None):
     img_pp2 = pygame.image.load('./images/testingShard/top_right.jpg').convert_alpha()
     img_pp3 = pygame.image.load('./images/testingShard/bottom_left.jpg').convert_alpha()
     img_pp4 = pygame.image.load('./images/testingShard/top_left.jpg').convert_alpha()
-    shard_list = [img_pp1, img_pp2, img_pp3, img_pp4]
+    # shard_list = [img_pp1, img_pp2, img_pp3, img_pp4]
     
-    # shard1 = Shard(sprite=None, image='./images/testingShard/top_left.jpg', split='left')
-    # shard2 = Shard(sprite=None, image='./images/testingShard/top_right.jpg', split='right')
-    # shard3 = Shard(sprite=None, image='./images/testingShard/bottom_left.jpg', split='up')
-    # shard4 = Shard(sprite=None, image='./images/testingShard/top_right.jpg', split='down')
-    # shard_list = [shard1.image, shard2.image, shard3.image, shard4.image]
+    shard1 = Shard(sprite=None, image=img_pp1, split='left')
+    shard2 = Shard(sprite=None, image=img_pp2, split='right')
+    shard3 = Shard(sprite=None, image=img_pp3, split='up')
+    shard4 = Shard(sprite=None, image=img_pp4, split='down')
+    shard_list = [shard1, shard2, shard3, shard4]
     
     mute = False
     shards = [0]
