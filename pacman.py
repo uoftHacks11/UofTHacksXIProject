@@ -70,6 +70,7 @@ game_won = False
 img_pp = pygame.image.load("photo_piece.png").convert_alpha()
 img_pp = pygame.transform.scale(img_pp, (30,30))
 mute = False
+shards = 0
 
 # Each Ghost's class, each ghost has its own movement, this can be changed to just one movement way
 
@@ -668,8 +669,15 @@ class Ghost:
 # Drawing scores
 
 def draw_misc():
+    global score
+    global shards
+
+    font = pygame.font.Font('freesansbold.ttf', 25)
     score_text = font.render(f'Score: {score}', True, 'white')
-    screen.blit(score_text, (10, 920))
+    shards_text = font.render(f'Shards: {shards} / 4', True, 'white')
+    screen.blit(score_text, (WIDTH // 2.26, HEIGHT // 2.35))
+    screen.blit(shards_text, (WIDTH // 2.4, HEIGHT // 2.15))
+
     if powerup:
         pygame.draw.circle(screen, 'blue', (140, 930), 15)
     for i in range(lives):
@@ -688,6 +696,7 @@ def draw_misc():
 # Checking for collisions
 
 def check_collisions(scor, power, power_count, eaten_ghosts):
+    global shards
     num1 = (HEIGHT - 50) // 32
     num2 = WIDTH // 30
     if 0 < player_x < 870:
@@ -702,7 +711,7 @@ def check_collisions(scor, power, power_count, eaten_ghosts):
             eaten_ghosts = [False, False, False, False]
         if level[center_y // num1][center_x // num2] == 10:
             level[center_y // num1][center_x // num2] = 0
-            print("shard += 1")
+            shards += 1
     return scor, power, power_count, eaten_ghosts
 
 # Draw the board from board.py
