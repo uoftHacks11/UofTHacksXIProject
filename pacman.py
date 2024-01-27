@@ -3,7 +3,7 @@ import copy
 from board import boards
 import pygame
 import math
-from tree import Story, Tree
+from trees import Story, Tree
 
 pygame.init()
 
@@ -108,60 +108,60 @@ class Ghost:
         if 0 < self.center_x // 30 < 29:
             if level[(self.center_y - num3) // num1][self.center_x // num2] == 9:
                 self.turns[2] = True
-            if level[self.center_y // num1][(self.center_x - num3) // num2] < 3 \
-                    or (level[self.center_y // num1][(self.center_x - num3) // num2] == 9 and (
-                    self.in_box or self.dead)):
+            if (level[self.center_y // num1][(self.center_x - num3) // num2] < 3 or level[self.center_y // num1][(self.center_x - num3) // num2] == 10 \
+                    or ((level[self.center_y // num1][(self.center_x - num3) // num2] == 9) and (
+                    self.in_box or self.dead))):
                 self.turns[1] = True
-            if level[self.center_y // num1][(self.center_x + num3) // num2] < 3 \
-                    or (level[self.center_y // num1][(self.center_x + num3) // num2] == 9 and (
-                    self.in_box or self.dead)):
+            if (level[self.center_y // num1][(self.center_x + num3) // num2] < 3 or level[self.center_y // num1][(self.center_x + num3) // num2] == 10 \
+                    or ((level[self.center_y // num1][(self.center_x + num3) // num2] == 9 ) and (
+                    self.in_box or self.dead))):
                 self.turns[0] = True
-            if level[(self.center_y + num3) // num1][self.center_x // num2] < 3 \
-                    or (level[(self.center_y + num3) // num1][self.center_x // num2] == 9 and (
-                    self.in_box or self.dead)):
+            if (level[(self.center_y + num3) // num1][self.center_x // num2] < 3 or level[(self.center_y + num3) // num1][self.center_x // num2] == 10\
+                    or ((level[(self.center_y + num3) // num1][self.center_x // num2] == 9 ) and (
+                    self.in_box or self.dead))):
                 self.turns[3] = True
-            if level[(self.center_y - num3) // num1][self.center_x // num2] < 3 \
-                    or (level[(self.center_y - num3) // num1][self.center_x // num2] == 9 and (
-                    self.in_box or self.dead)):
+            if (level[(self.center_y - num3) // num1][self.center_x // num2] < 3 or level[(self.center_y - num3) // num1][self.center_x // num2] == 10\
+                    or ((level[(self.center_y - num3) // num1][self.center_x // num2] == 9 ) and (
+                    self.in_box or self.dead))):
                 self.turns[2] = True
 
             if self.direction == 2 or self.direction == 3:
                 if 12 <= self.center_x % num2 <= 18:
-                    if level[(self.center_y + num3) // num1][self.center_x // num2] < 3 \
-                            or (level[(self.center_y + num3) // num1][self.center_x // num2] == 9 and (
+                    if level[(self.center_y + num3) // num1][self.center_x // num2] < 3 or level[self.center_y // num1][(self.center_x - num3) // num2] == 10\
+                            or ((level[self.center_y // num1][(self.center_x - num3) // num2] == 9 ) and (
                             self.in_box or self.dead)):
                         self.turns[3] = True
-                    if level[(self.center_y - num3) // num1][self.center_x // num2] < 3 \
-                            or (level[(self.center_y - num3) // num1][self.center_x // num2] == 9 and (
+                    if level[(self.center_y - num3) // num1][self.center_x // num2] < 3 or level[self.center_y // num1][(self.center_x + num3) // num2] == 10\
+                            or ((level[self.center_y // num1][(self.center_x + num3) // num2] == 9 ) and (
                             self.in_box or self.dead)):
                         self.turns[2] = True
                 if 12 <= self.center_y % num1 <= 18:
-                    if level[self.center_y // num1][(self.center_x - num2) // num2] < 3 \
-                            or (level[self.center_y // num1][(self.center_x - num2) // num2] == 9 and (
+                    if level[self.center_y // num1][(self.center_x - num2) // num2] < 3 or level[(self.center_y + num3) // num1][self.center_x // num2] == 10\
+                            or ((level[(self.center_y + num3) // num1][self.center_x // num2] == 9 ) and (
                             self.in_box or self.dead)):
                         self.turns[1] = True
-                    if level[self.center_y // num1][(self.center_x + num2) // num2] < 3 \
-                            or (level[self.center_y // num1][(self.center_x + num2) // num2] == 9 and (
+                    if level[self.center_y // num1][(self.center_x + num2) // num2] < 3 or level[(self.center_y - num3) // num1][self.center_x // num2] == 10\
+                            or ((level[(self.center_y - num3) // num1][self.center_x // num2] == 9 ) and (
                             self.in_box or self.dead)):
                         self.turns[0] = True
 
             if self.direction == 0 or self.direction == 1:
                 if 12 <= self.center_x % num2 <= 18:
-                    if level[(self.center_y + num3) // num1][self.center_x // num2] < 3 \
-                            or (level[(self.center_y + num3) // num1][self.center_x // num2] == 9 and (
+                    if level[(self.center_y + num3) // num1][self.center_x // num2] < 3 or level[self.center_y // num1][(self.center_x - num3) // num2] == 10\
+                            or ((level[self.center_y // num1][(self.center_x - num3) // num2] == 9 ) and (
                             self.in_box or self.dead)):
                         self.turns[3] = True
-                    if level[(self.center_y - num3) // num1][self.center_x // num2] < 3 \
-                            or (level[(self.center_y - num3) // num1][self.center_x // num2] == 9 and (
+                    if level[(self.center_y - num3) // num1][self.center_x // num2] < 3 or level[self.center_y // num1][(self.center_x + num3) // num2] == 10\
+                            or ((level[self.center_y // num1][(self.center_x + num3) // num2] == 9 ) and (
                             self.in_box or self.dead)):
                         self.turns[2] = True
                 if 12 <= self.center_y % num1 <= 18:
-                    if level[self.center_y // num1][(self.center_x - num3) // num2] < 3 \
-                            or (level[self.center_y // num1][(self.center_x - num3) // num2] == 9 and (
+                    if level[self.center_y // num1][(self.center_x - num3) // num2] < 3 or level[(self.center_y + num3) // num1][self.center_x // num2] == 10\
+                            or ((level[(self.center_y + num3) // num1][self.center_x // num2] == 9 ) and (
                             self.in_box or self.dead)):
                         self.turns[1] = True
-                    if level[self.center_y // num1][(self.center_x + num3) // num2] < 3 \
-                            or (level[self.center_y // num1][(self.center_x + num3) // num2] == 9 and (
+                    if level[self.center_y // num1][(self.center_x + num3) // num2] < 3 or level[(self.center_y - num3) // num1][self.center_x // num2] == 10\
+                            or ((level[(self.center_y - num3) // num1][self.center_x // num2] == 9 ) and (
                             self.in_box or self.dead)):
                         self.turns[0] = True
         else:
@@ -700,6 +700,9 @@ def check_collisions(scor, power, power_count, eaten_ghosts):
             power = True
             power_count = 0
             eaten_ghosts = [False, False, False, False]
+        if level[center_y // num1][center_x // num2] == 10:
+            level[center_y // num1][center_x // num2] = 0
+            print("shard += 1")
     return scor, power, power_count, eaten_ghosts
 
 # Draw the board from board.py
@@ -736,7 +739,7 @@ def draw_board():
                 pygame.draw.line(screen, 'white', (j * num2, i * num1 + (0.5 * num1)),
                                  (j * num2 + num2, i * num1 + (0.5 * num1)), 3)  
             if level[i][j] == 10:
-                # pygame.draw.circle(screen, 'aqua', (j * num2 + (0.5 * num2), i * num1 + (0.5 * num1)), 4)
+                # pygame.draw.circle(screen, 'aqua', (j * num2 + (0.5 * num2), i * num1 + (0.5 * num1)), 10)
                 screen.blit(img_pp, (j * num2, i * num1))
                 
 
@@ -761,39 +764,39 @@ def check_position(centerx, centery):
     # check collisions based on center x and center y of player +/- fudge number
     if centerx // 30 < 29:
         if direction == 0:
-            if level[centery // num1][(centerx - num3) // num2] < 3:
+            if level[centery // num1][(centerx - num3) // num2] < 3 or level[centery // num1][(centerx - num3) // num2] > 9:
                 turns[1] = True
         if direction == 1:
-            if level[centery // num1][(centerx + num3) // num2] < 3:
+            if level[centery // num1][(centerx + num3) // num2] < 3 or level[centery // num1][(centerx + num3) // num2] > 9:
                 turns[0] = True
         if direction == 2:
-            if level[(centery + num3) // num1][centerx // num2] < 3:
+            if level[(centery + num3) // num1][centerx // num2] < 3 or level[(centery + num3) // num1][centerx // num2] > 9:
                 turns[3] = True
         if direction == 3:
-            if level[(centery - num3) // num1][centerx // num2] < 3:
+            if level[(centery - num3) // num1][centerx // num2] < 3 or level[(centery - num3) // num1][centerx // num2] > 9:
                 turns[2] = True
 
         if direction == 2 or direction == 3:
             if 12 <= centerx % num2 <= 18:
-                if level[(centery + num3) // num1][centerx // num2] < 3:
+                if level[(centery + num3) // num1][centerx // num2] < 3 or level[(centery + num3) // num1][centerx // num2] > 9:
                     turns[3] = True
-                if level[(centery - num3) // num1][centerx // num2] < 3:
+                if level[(centery - num3) // num1][centerx // num2] < 3 or level[(centery - num3) // num1][centerx // num2] > 9:
                     turns[2] = True
             if 12 <= centery % num1 <= 18:
-                if level[centery // num1][(centerx - num2) // num2] < 3:
+                if level[centery // num1][(centerx - num2) // num2] < 3 or level[centery // num1][(centerx - num2) // num2] > 9:
                     turns[1] = True
-                if level[centery // num1][(centerx + num2) // num2] < 3:
+                if level[centery // num1][(centerx + num2) // num2] < 3 or level[centery // num1][(centerx + num2) // num2] > 9:
                     turns[0] = True
         if direction == 0 or direction == 1:
             if 12 <= centerx % num2 <= 18:
-                if level[(centery + num1) // num1][centerx // num2] < 3:
+                if level[(centery + num1) // num1][centerx // num2] < 3 or level[(centery + num1) // num1][centerx // num2] > 9:
                     turns[3] = True
-                if level[(centery - num1) // num1][centerx // num2] < 3:
+                if level[(centery - num1) // num1][centerx // num2] < 3 or level[(centery - num1) // num1][centerx // num2] > 9:
                     turns[2] = True
             if 12 <= centery % num1 <= 18:
-                if level[centery // num1][(centerx - num3) // num2] < 3:
+                if level[centery // num1][(centerx - num3) // num2] < 3 or level[centery // num1][(centerx - num3) // num2] > 9:
                     turns[1] = True
-                if level[centery // num1][(centerx + num3) // num2] < 3:
+                if level[centery // num1][(centerx + num3) // num2] < 3 or level[centery // num1][(centerx + num3) // num2] > 9:
                     turns[0] = True
     else:
         turns[0] = True
