@@ -33,7 +33,7 @@ def split_image(image_path, destination_path, name):
 
 
 if __name__ == '__main__':
-    image_path = "./images/biking.jpg"
+    image_path = "./images/rohan.jpeg"
     destination_path = './images'
     name = "biking"
 
