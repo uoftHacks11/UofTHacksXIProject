@@ -7,6 +7,12 @@ from trees import Story, Tree
 
 pygame.init()
 
+class Shard():
+    def __init__(self, sprite, image):
+        self.sprite = sprite
+        self.image = image
+        
+
 def change_screen_shard_collected(screen, width, height):
     screen = pygame.display.set_mode([width, height])
 
@@ -20,6 +26,27 @@ def change_screen_shard_collected(screen, width, height):
                     break
     
     return None
+
+
+def change_screen_shard_collected(screen, width, height, shard):
+    screen = pygame.display.set_mode([width, height])
+    image = pygame.image.load(shard.image)
+
+    cont = True
+    while cont:
+       
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:  
+                cont = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r: 
+                    cont = False
+
+        screen.blit(image, (0, 0))
+        pygame.display.update()
+
+    return None
+
 
 def run_game(
         board = None
