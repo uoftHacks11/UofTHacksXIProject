@@ -4,42 +4,62 @@ from board import boards, test_board
 import pygame
 import math
 from trees import Story, Tree
+from splitImage import split_image
 
 pygame.init()
 
+SPLIT_COUNT = 3
+
 class Shard():
-    def __init__(self, sprite, image):
+    def __init__(self, sprite, image, split):
         self.sprite = sprite
         self.image = image
+        self.split = split # split in ["left", "right", "up", "down"]
         
 
-def change_screen_shard_collected(screen, width, height):
+def change_screen_shard_collected(screen, width, height, shard_list):
+    global SPLIT_COUNT
     screen = pygame.display.set_mode([width, height])
-    screen.fill('aqua')
+    image = shard_list[SPLIT_COUNT]
+    SPLIT_COUNT -= 1
+                
     cont = True
     while cont:
         for event in pygame.event.get():
+            if event.type == pygame.QUIT: 
+                cont = False
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_r:
+                if event.key == pygame.K_r:  
                     cont = False
-                    break
-    
-    return None
-
-
-# def change_screen_shard_collected(screen, width, height, shard):
+# =======
+# def change_screen_shard_collected(screen, width, height):
 #     screen = pygame.display.set_mode([width, height])
-#     image = pygame.image.load(shard.image)
-
+#     screen.fill('aqua')
 #     cont = True
 #     while cont:
-       
 #         for event in pygame.event.get():
-#             if event.type == pygame.QUIT:  
-#                 cont = False
 #             if event.type == pygame.KEYDOWN:
-#                 if event.key == pygame.K_r: 
+#                 if event.key == pygame.K_r:
 #                     cont = False
+#                     break
+    
+#     return None
+
+
+# # def change_screen_shard_collected(screen, width, height, shard):
+# #     screen = pygame.display.set_mode([width, height])
+# #     image = pygame.image.load(shard.image)
+
+# #     cont = True
+# #     while cont:
+       
+# #         for event in pygame.event.get():
+# #             if event.type == pygame.QUIT:  
+# #                 cont = False
+# #             if event.type == pygame.KEYDOWN:
+# #                 if event.key == pygame.K_r: 
+# #                     cont = False
+# >>>>>>> develop
 
 #         screen.blit(image, (0, 0))
 #         pygame.display.update()
@@ -47,9 +67,7 @@ def change_screen_shard_collected(screen, width, height):
 #     return None
 
 
-def run_game(
-        board = None
-):
+def run_game(board = None):
     WIDTH = 900
     HEIGHT = 950
     screen = pygame.display.set_mode([WIDTH, HEIGHT])
@@ -108,8 +126,23 @@ def run_game(
     lives = 3
     game_over = False
     game_won = False
+    
     img_pp = pygame.image.load("photo_piece.png").convert_alpha()
     img_pp = pygame.transform.scale(img_pp, (30,30))
+    split_image('./images/rohan.jpeg', './images', 'testingShard')
+    
+    img_pp1 = pygame.image.load('./images/testingShard/top_left.jpg').convert_alpha()
+    img_pp2 = pygame.image.load('./images/testingShard/top_right.jpg').convert_alpha()
+    img_pp3 = pygame.image.load('./images/testingShard/bottom_left.jpg').convert_alpha()
+    img_pp4 = pygame.image.load('./images/testingShard/top_left.jpg').convert_alpha()
+    shard_list = [img_pp1, img_pp2, img_pp3, img_pp4]
+    
+    # shard1 = Shard(sprite=None, image='./images/testingShard/top_left.jpg', split='left')
+    # shard2 = Shard(sprite=None, image='./images/testingShard/top_right.jpg', split='right')
+    # shard3 = Shard(sprite=None, image='./images/testingShard/bottom_left.jpg', split='up')
+    # shard4 = Shard(sprite=None, image='./images/testingShard/top_right.jpg', split='down')
+    # shard_list = [shard1.image, shard2.image, shard3.image, shard4.image]
+    
     mute = False
     shards = [0]
 
@@ -753,7 +786,11 @@ def run_game(
             if level[center_y // num1][center_x // num2] == 10:
                 level[center_y // num1][center_x // num2] = 0
                 shards[0] += 1
-                change_screen_shard_collected(screen, WIDTH, HEIGHT)
+                change_screen_shard_collected(screen, WIDTH, HEIGHT, shard_list) 
+# =======
+#                 shards[0] += 1
+#                 change_screen_shard_collected(screen, WIDTH, HEIGHT)
+# >>>>>>> develop
         return scor, power, power_count, eaten_ghosts
 
     # Draw the board from board.py
@@ -950,7 +987,6 @@ def run_game(
     run = True
     delay_duration = 640
     last_play_time = 0 
-
     while run:
         
         pygame.mixer.init()
