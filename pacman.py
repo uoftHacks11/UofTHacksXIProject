@@ -6,6 +6,8 @@ import math
 
 pygame.init()
 
+# Globals
+
 WIDTH = 900
 HEIGHT = 950
 screen = pygame.display.set_mode([WIDTH, HEIGHT])
@@ -65,6 +67,7 @@ lives = 3
 game_over = False
 game_won = False
 
+# Each Ghost's class, each ghost has its own movement, this can be changed to just one movement way
 
 class Ghost:
     def __init__(self, x_coord, y_coord, target, speed, img, direct, dead, box, id):
@@ -658,6 +661,7 @@ class Ghost:
             self.x_pos - 30
         return self.x_pos, self.y_pos, self.direction
 
+# Drawing scores
 
 def draw_misc():
     score_text = font.render(f'Score: {score}', True, 'white')
@@ -677,6 +681,7 @@ def draw_misc():
         gameover_text = font.render('Victory! Space bar to restart!', True, 'green')
         screen.blit(gameover_text, (100, 300))
 
+# Checking for collisions
 
 def check_collisions(scor, power, power_count, eaten_ghosts):
     num1 = (HEIGHT - 50) // 32
@@ -693,6 +698,7 @@ def check_collisions(scor, power, power_count, eaten_ghosts):
             eaten_ghosts = [False, False, False, False]
     return scor, power, power_count, eaten_ghosts
 
+# Draw the board from board.py
 
 def draw_board():
     num1 = ((HEIGHT - 50) // 32)
@@ -881,9 +887,9 @@ def get_targets(blink_x, blink_y, ink_x, ink_y, pink_x, pink_y, clyd_x, clyd_y):
 
 
 run = True
-
 delay_duration = 640
 last_play_time = 0 
+
 while run:
     
     pygame.mixer.init()
