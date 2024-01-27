@@ -881,7 +881,19 @@ def get_targets(blink_x, blink_y, ink_x, ink_y, pink_x, pink_y, clyd_x, clyd_y):
 
 
 run = True
+
+delay_duration = 640
+last_play_time = 0 
 while run:
+    
+    pygame.mixer.init()
+    sound = pygame.mixer.Sound('pacman_chomp.wav')
+    
+    current_time = pygame.time.get_ticks()
+    if current_time - last_play_time >= delay_duration:
+        sound.play()
+        last_play_time = current_time
+    
     timer.tick(fps)
     if counter < 19:
         counter += 1
