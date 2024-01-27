@@ -1,5 +1,6 @@
 import cohere
 import os
+from image_captioning import predict_step
 from dotenv import load_dotenv
 from binary_tree import *
 load_dotenv()
@@ -7,42 +8,121 @@ load_dotenv()
 api_key = os.getenv('COHERE_API_KEY')
 co = cohere.Client(api_key)
 
-prompt="""Predict what I experienced based on these captions in order using first person narrative (I):
-    a large jetliner sitting on top of an airport tarmac,
-    a computer science guy coding on the phone
-"   tasteful spaghetti
-    "For each caption output, keep it 3 sentences, and seperate each caption output,
-    but ensure that the storyline between caption outputs is consistent. Only return the 3 captions and nothing else.
-    Use this format for the output:
-    [sentences for caption 1]
-    [sentences for caption 2]
-    [sentences for caption 3]"""
 
-def generate_text(prompt, temp=0):
-  chat_hist = []
-  response = co.generate(
-    model='command',
-    prompt=prompt,
-    temperature=0.0,
-    # chat_history=[
-    #     {"role": "Chatbot", "message": {response.generations[0].text}}
-    # ]
+def generate_text(captions, temp=0):
+  
+    prompt=f"""Predict what I experienced based on these captions in order using first person narrative (I):
+        {captions[0]},
+        {captions[1]},
+        {captions[2]}
+
+        Ensure that for each caption, you generate exactly 4 sentences. Separate the output for each caption based
+        on the format below. Strictly adhere to the format and ensure you don't generate anything that strays from the 
+        format below. Ensure that the storyline between the outputs for the captions is consistent.
+
+        Strictly adhere to the folling output format and don't deviate from it:
+        "
+        [sentences for caption 1]
+        ###
+        [sentences for caption 2]
+        ###
+        [sentences for caption 3]
+        "
+        """
+
+    # chat_hist = []
+    response = co.generate(
+        model='command',
+        prompt=prompt,
+        temperature=0.0,
     )
-  chat_hist.append(response.generations[0].text)
-  return response.generations[0].text
+    # chat_hist.append(response.generations[0].text)
+    return response.generations[0].text
 
 
-response_text = generate_text(prompt)
-story_parts = response_text.split("\n")
-story_parts = [part for part in story_parts if part.strip()]
+def generate_text_level_two(captions, prev, temp=0):
+  
+    prompt=f"""Predict what I experienced based on these captions in order using first person narrative (I):
+        {captions[0]},
+        {captions[1]},
+        {captions[2]}
+
+        The output for the first caption is: {prev[0]}
+
+        Ensure that for the remaining captions, you generate exactly 4 sentences. Separate the output for each caption based
+        on the format below. Strictly adhere to the format and ensure you don't generate anything that strays from the 
+        format below. Ensure that the storyline between the outputs for the remaining captions is consistent with the
+        story introduced by the first caption.
+
+        Strictly adhere to the folling output format and don't deviate from it:
+        "
+        {prev[0]}
+        ###
+        [sentences for caption 2]
+        ###
+        [sentences for caption 3]
+        "
+        """
+
+    # chat_hist = []
+    response = co.generate(
+        model='command',
+        prompt=prompt,
+        temperature=0.0,
+    )
+    # chat_hist.append(response.generations[0].text)
+    return response.generations[0].text
 
 
-# print(response.generations[0].text)
 
+def generate_text_level_three(captions, prev, temp=0):
+  
+    prompt=f"""Predict what I experienced based on these captions in order using first person narrative (I):
+        {captions[0]},
+        {captions[1]},
+        {captions[2]}
 
-def create_game_tree(root_val, max_level):
-    root = Node(root_val, 1, 'start')
-    _expand_tree(root, 2, max_level)
+        The output for the first caption is: {prev[0]}
+        The output for the second caption is: {prev[1]}
+
+        Ensure that for the remaining captions, you generate exactly 4 sentences. Separate the output for each caption based
+        on the format below. Strictly adhere to the format and ensure you don't generate anything that strays from the 
+        format below. Ensure that the storyline between the outputs for the remaining captions is consistent with the
+        story introduced by the first caption.
+
+        Strictly adhere to the folling output format and don't deviate from it:
+        "
+        {prev[0]}
+        ###
+        {prev[1]}
+        ###
+        [sentences for caption 3]
+        "
+        """
+
+    # chat_hist = []
+    response = co.generate(
+        model='command',
+        prompt=prompt,
+        temperature=0.0,
+    )
+    # chat_hist.append(response.generations[0].text)
+    return response.generations[0].text
+
+'''
+class Node:
+    def __init__(self, img, val, level, state = None):
+        self.image = img    # img
+        self.val = val      # string/story for this image
+        self.level = level  # depth [0, 1, or 2]
+        self.state = state  # win/lose for all levels except 0
+        self.left = None 
+        self.right = None
+'''
+
+def create_game_tree(img, root_val, max_level):
+    root = Node(img, root_val, 1, 'start')
+
     return root
 
 def _expand_tree(node, current_level, max_level):
@@ -67,7 +147,12 @@ def print_game_tree(node, path=[]):
             print_game_tree(node.left, path.copy())
             print_game_tree(node.right, path.copy())
 
-root_story = "Original story"
-max_game_level = 3
-game_tree = create_game_tree(root_story, max_game_level)
-print_game_tree(game_tree)
+
+if __name__ == "__main__":
+    image_paths_3 = ['./images/biking.jpg', './images/monke.jpg', './images/rohan.jpeg']
+
+    captions = predict_step(image_paths_3)
+
+    coo = generate_text(captions)
+    coo = [s.replace('\n', '').replace('"', '') for s in coo.split('###')]
+    print(coo)
