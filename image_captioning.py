@@ -39,7 +39,7 @@ def predict_step(image_paths):
 
 
 if __name__ == "__main__":
-    image_paths_3 = ['./images/biking.jpg', './images/climbing.jpg', './images/rohan.jpeg']
+    image_paths_3 = ['./images/biking.jpg', './images/monke.jpg', './images/rohan.jpeg']
     image_paths_1 = ['./images/biking.jpg']
 
     print(predict_step(image_paths_3))
