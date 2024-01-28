@@ -3,11 +3,6 @@ import sys
 import pacman
 # TODO: import view photo files
 
-pygame.init()
-
-SCREEN = pygame.display.set_mode([900, 950])
-pygame.display.set_caption("Menu")
-
 def get_font(size): # Returns Press-Start-2P in the desired size
     return pygame.font.Font("assets/fonts/font.ttf", size)
 
@@ -15,7 +10,9 @@ def get_logo(size):
     return pygame.font.Font("assets/fonts/pacman_font.TTF", size)
 
 
-def main_menu():
+def main_menu(screen, root):
+    screen = pygame.display.set_mode([900, 950])
+    pygame.display.set_caption("Menu")
     
     MENU_TEXT = get_font(85).render("MAIN MENU", True, "White")
     MENU_RECT = MENU_TEXT.get_rect(center=(450, 330))
@@ -31,11 +28,11 @@ def main_menu():
     LOGO_PIC = pygame.image.load("assets/logo.png").convert()
     LOGO_PIC = pygame.transform.scale(LOGO_PIC, (300, 300))
 
-    SCREEN.blit(MENU_TEXT, MENU_RECT)
-    SCREEN.blit(LOGO_TEXT, LOGO_RECT)
-    SCREEN.blit(START_TEXT, START_RECT)
-    SCREEN.blit(PHOTOS_TEXT, PHOTOS_RECT)
-    SCREEN.blit(LOGO_PIC, LOGO_PIC.get_rect(center=(450, 780)))
+    screen.blit(MENU_TEXT, MENU_RECT)
+    screen.blit(LOGO_TEXT, LOGO_RECT)
+    screen.blit(START_TEXT, START_RECT)
+    screen.blit(PHOTOS_TEXT, PHOTOS_RECT)
+    screen.blit(LOGO_PIC, LOGO_PIC.get_rect(center=(450, 780)))
 
     
     run = True
@@ -45,7 +42,7 @@ def main_menu():
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    pacman.run_game()
+                    pacman.run_game(root)
                 elif event.key == pygame.K_p:
                     # xxx.run()
                     # TODO: show photos
@@ -53,4 +50,4 @@ def main_menu():
         pygame.display.update()
         pygame.display.flip()
 
-main_menu()
+# main_menu()

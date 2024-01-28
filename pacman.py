@@ -68,7 +68,7 @@ def change_screen_shard_collected(screen, width, height, shard_list):
 # >>>>>>> develop
 
 
-def run_game(board = None):
+def run_game(root, board = None):
     WIDTH = 900
     HEIGHT = 950
     screen = pygame.display.set_mode([WIDTH, HEIGHT])
