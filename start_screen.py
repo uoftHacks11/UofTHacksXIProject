@@ -43,12 +43,18 @@ def main_menu(screen, root):
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    pacman.run_game(root, 0, None)
+                    wl, num_shards = pacman.run_game(root, 0, None)
+                    if wl:
+                        print("won level")
+                    else:
+                        print("lost level")
                 elif event.key == pygame.K_p:
                     # xxx.run()
                     # TODO: show photos
                     pass
         pygame.display.update()
         pygame.display.flip()
+
+    pygame.quit()
 
 # main_menu()

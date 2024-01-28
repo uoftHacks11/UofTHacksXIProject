@@ -185,6 +185,7 @@ def run_game(root, tree_level, victory_tracker, board = None):
     clyde_y = 438
     clyde_direction = 2
     counter = 0
+    lost_level = False
     flicker = False
     # R, L, U, D
     turns_allowed = [False, False, False, False]
@@ -1204,6 +1205,8 @@ def run_game(root, tree_level, victory_tracker, board = None):
                     game_over = True
                     moving = False
                     startup_counter = 0
+                    lost_level = True
+                    break
         if powerup and player_circle.colliderect(blinky.rect) and eaten_ghost[0] and not blinky.dead:
             if lives > 0:
                 powerup = False
@@ -1441,7 +1444,9 @@ def run_game(root, tree_level, victory_tracker, board = None):
             run = False
 
         pygame.display.flip()
-    pygame.quit()
+    # pygame.quit()
+        
+    return not lost_level
 
 
 if __name__ == '__main__':
