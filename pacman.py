@@ -27,6 +27,10 @@ def change_screen_shard_collected(screen, width, height, shard_list):
     global SPLIT_COUNT
     screen = pygame.display.set_mode([width, height])
     image = shard_list[SPLIT_COUNT].image
+    total_story = shard_list[SPLIT_COUNT].story
+    total_story = total_story.split('. ')
+    curr_caption = shard_list[SPLIT_COUNT].caption
+    story_level = total_story[:3 - SPLIT_COUNT + 1]
     SPLIT_COUNT -= 1
                 
     cont = True
