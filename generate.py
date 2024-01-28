@@ -17,7 +17,7 @@ def generate_text(captions, temp=0):
         {captions[2]}
 
         Ensure that for each caption, you generate exactly 4 sentences. Separate the output for each caption based
-        on the format below. Strictly adhere to the format and ensure you don't generate anything that strays from the 
+        on the format below. Don't ask for feedback. Strictly adhere to the format and ensure you don't generate anything that strays from the 
         format below. Ensure that the storyline between the outputs for the captions is consistent.
 
         Strictly adhere to the following output format and don't deviate from it:
@@ -52,7 +52,7 @@ def generate_text_level_two(captions, prev, temp=0):
         The output for the first caption is: {prev[0]}
 
         Ensure that for the remaining captions, you generate exactly 4 sentences. Separate the output for each caption based
-        on the format below. Strictly adhere to the format and ensure you don't generate anything that strays from the 
+        on the format below. Don't ask for feedback. Strictly adhere to the format and ensure you don't generate anything that strays from the 
         format below. Ensure that the storyline between the outputs for the remaining captions is consistent with the
         story introduced by the first caption.
 
@@ -90,7 +90,7 @@ def generate_text_level_three(captions, prev, temp=0):
         The output for the second caption is: {prev[1]}
 
         Ensure that for the remaining captions, you generate exactly 4 sentences. Separate the output for each caption based
-        on the format below. Generate only the sentences. Strictly adhere to the format and don't generate any additional
+        on the format below. Generate only the sentences. Don't ask for feedback. Strictly adhere to the format and don't generate any additional
         text asking acknowledging the instructions or asking if the output is satisfactory. Ensure that the storyline between 
         the outputs for the remaining captions is consistent with the story introduced by the first caption and the second caption.
 
