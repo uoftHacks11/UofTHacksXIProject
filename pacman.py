@@ -17,12 +17,13 @@ class Shard():
     # num_found = 0
     # use 3 - SPLIT_COUNT instaed
 
-    def __init__(self, sprite, image, split, caption, story):
+    def __init__(self, sprite, image, split, caption, story, black):
         self.sprite = sprite
         self.image = image
         self.split = split # split in ["left", "right", "up", "down"]
         self.caption = caption
         self.story = story
+        self.black = black
     
     
 def render_text(surface, text, pos, font, color, max_width):
@@ -55,12 +56,33 @@ def render_text(surface, text, pos, font, color, max_width):
 
     if line:
         surface.blit(font.render(' '.join(line), True, color), (x, y))    
+ 
+def draw_images(shard_list,screen, width, height):
+    global SPLIT_COUNT
+    half_width = screen.get_width() // 2
+    image_height = screen.get_height()
+    image1 = shard_list[0].image
+    image2 = shard_list[1].image
+    image3 = shard_list[2].image
+    image4 = shard_list[3].image
+    black = pygame.image.load('./black.png').convert_alpha()
+    # black_image = pygame.transform.scale(black_image, (half_width//1.15, image_height//2.25))
+    image1 = pygame.transform.scale(image1, (200, 200)) if SPLIT_COUNT <= 2 else black
+    image2 = pygame.transform.scale(image2, (200, 200)) if SPLIT_COUNT <= 1 else black
+    image3 = pygame.transform.scale(image3, (200, 200)) if SPLIT_COUNT <= 0 else black
+    image4 = pygame.transform.scale(image4, (200, 200)) if SPLIT_COUNT < 0 else black
+    screen.blit(image1, (0, 200))
+    screen.blit(image2, (0 + image1.get_width(), 200))
+    screen.blit(image3, (0, 200 + image1.get_height()))
+    screen.blit(image4, (0 + image1.get_width(), 200 + image1.get_height()))
+    
         
 
 def change_screen_shard_collected(screen, width, height, shard_list):
     global SPLIT_COUNT
     screen = pygame.display.set_mode([width, height])
     image = shard_list[SPLIT_COUNT].image
+    # black = shard_list[SPLIT_COUNT].black
     total_story = shard_list[SPLIT_COUNT].story
     total_story = total_story.split('. ')
     curr_caption = shard_list[SPLIT_COUNT].caption
@@ -79,8 +101,11 @@ def change_screen_shard_collected(screen, width, height, shard_list):
 
         half_width = screen.get_width() // 2
         image_height = screen.get_height()
-        image = pygame.transform.scale(image, (half_width//1.15, image_height//2.25))
-        screen.blit(image, (0, 200))
+        draw_images(shard_list, screen, width, height)
+        # black_image = pygame.transform.scale(black_image, (half_width//1.15, image_height//2.25))
+        # image = pygame.transform.scale(image, (half_width//1.15, image_height//2.25))
+        # screen.blit(image, (0, 200))
+        # screen.blit(black_image,(0,200))
         #screen.blit(curr_caption,(half_width,0))
         
         text = pygame.font.SysFont('Arial', 20).render(curr_caption, True, (255,255,255))
@@ -258,21 +283,29 @@ def run_game(root, tree_level, victory_tracker, board = None):
         pass
     img_pp = pygame.image.load("photo_piece.png").convert_alpha()
     img_pp = pygame.transform.scale(img_pp, (30,30))
+    # img_ppb = pygame.image.load("A_black_image.png").convert_alpha()
+    # img_ppb = pygame.transform.scale(img_ppb, (30,30))
     split_image(root.image, './images', 'testingShard') #root.image
+    # split_image(root.black, './images', 'blackShard')
     #split_image(image_path, destination_path, name
     img_pp1 = pygame.image.load('./images/testingShard/top_left.jpg').convert_alpha()
     img_pp2 = pygame.image.load('./images/testingShard/top_right.jpg').convert_alpha()
     img_pp3 = pygame.image.load('./images/testingShard/bottom_left.jpg').convert_alpha()
-    img_pp4 = pygame.image.load('./images/testingShard/top_left.jpg').convert_alpha()
+    img_pp4 = pygame.image.load('./images/testingShard/bottom_right.jpg').convert_alpha()
+    
+    # img_ppb1 = pygame.image.load('./images/blackShard/top_left.jpg').convert_alpha()
+    # img_ppb2 = pygame.image.load('./images/blackShard/top_right.jpg').convert_alpha()
+    # img_ppb3 = pygame.image.load('./images/blackShard/bottom_left.jpg').convert_alpha()
+    # img_ppb4 = pygame.image.load('./images/blackShard/top_left.jpg').convert_alpha()
     # shard_list = [img_pp1, img_pp2, img_pp3, img_pp4]
 
     # if level is not 0, traverse using victory_tracker to find correct image/story
 
 
-    shard1 = Shard(sprite=None, image=img_pp1, split='left', caption=caption, story=story)
-    shard2 = Shard(sprite=None, image=img_pp2, split='right', caption=caption, story=story)
-    shard3 = Shard(sprite=None, image=img_pp3, split='up', caption=caption, story=story)
-    shard4 = Shard(sprite=None, image=img_pp4, split='down', caption=caption, story=story)
+    shard1 = Shard(sprite=None, image=img_pp1, split='left', caption=caption, story=story, black='')
+    shard2 = Shard(sprite=None, image=img_pp2, split='right', caption=caption, story=story, black='')
+    shard3 = Shard(sprite=None, image=img_pp3, split='up', caption=caption, story=story,black='')
+    shard4 = Shard(sprite=None, image=img_pp4, split='down', caption=caption, story=story,black='')
     shard_list = [shard1, shard2, shard3, shard4]
     
     mute = False
