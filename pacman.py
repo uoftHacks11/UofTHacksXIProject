@@ -58,17 +58,19 @@ def render_text(surface, text, pos, font, color, max_width):
         surface.blit(font.render(' '.join(line), True, color), (x, y))    
  
 def draw_images(shard_list,screen, width, height):
+    global SPLIT_COUNT
     half_width = screen.get_width() // 2
     image_height = screen.get_height()
     image1 = shard_list[0].image
     image2 = shard_list[1].image
     image3 = shard_list[2].image
     image4 = shard_list[3].image
+    black = pygame.image.load('./black.png').convert_alpha()
     # black_image = pygame.transform.scale(black_image, (half_width//1.15, image_height//2.25))
-    image1 = pygame.transform.scale(image1, (100, 100))
-    image2 = pygame.transform.scale(image2, (100, 100))
-    image3 = pygame.transform.scale(image3, (100, 100))
-    image4 = pygame.transform.scale(image4, (100, 100))
+    image1 = pygame.transform.scale(image1, (200, 200)) if SPLIT_COUNT <= 2 else black
+    image2 = pygame.transform.scale(image2, (200, 200)) if SPLIT_COUNT <= 1 else black
+    image3 = pygame.transform.scale(image3, (200, 200)) if SPLIT_COUNT <= 0 else black
+    image4 = pygame.transform.scale(image4, (200, 200)) if SPLIT_COUNT < 0 else black
     screen.blit(image1, (0, 200))
     screen.blit(image2, (0 + image1.get_width(), 200))
     screen.blit(image3, (0, 200 + image1.get_height()))
@@ -287,14 +289,9 @@ def run_game(root, tree_level, victory_tracker, board = None):
     # split_image(root.black, './images', 'blackShard')
     #split_image(image_path, destination_path, name
     img_pp1 = pygame.image.load('./images/testingShard/top_left.jpg').convert_alpha()
-    img_pp1 = pygame.transform.scale_by(img_pp1, 0.5)
     img_pp2 = pygame.image.load('./images/testingShard/top_right.jpg').convert_alpha()
-    img_pp2 = pygame.transform.scale_by(img_pp2, 0.5)
     img_pp3 = pygame.image.load('./images/testingShard/bottom_left.jpg').convert_alpha()
-    img_pp3 = pygame.transform.scale_by(img_pp3, 0.5)
     img_pp4 = pygame.image.load('./images/testingShard/bottom_right.jpg').convert_alpha()
-    img_pp4 = pygame.transform.scale_by(img_pp4, 0.5)
-
     
     # img_ppb1 = pygame.image.load('./images/blackShard/top_left.jpg').convert_alpha()
     # img_ppb2 = pygame.image.load('./images/blackShard/top_right.jpg').convert_alpha()
