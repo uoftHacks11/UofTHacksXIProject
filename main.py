@@ -99,4 +99,4 @@ if __name__ == "__main__":
     # print_tree(root)
         
     # run_game()
-    start_screen.main_menu(screen, root)
+    start_screen.main_menu(screen, root, imgs)

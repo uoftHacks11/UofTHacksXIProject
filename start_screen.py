@@ -11,14 +11,14 @@ def get_logo(size):
     return pygame.font.Font("assets/fonts/pacman_font.TTF", size)
 
 
-def main_menu(screen, root):
+def main_menu(screen, root, imgs):
     screen = pygame.display.set_mode([900, 950])
     pygame.display.set_caption("Menu")
     
     MENU_TEXT = get_font(85).render("MAIN MENU", True, "White")
     MENU_RECT = MENU_TEXT.get_rect(center=(450, 330))
 
-    LOGO_TEXT = get_logo(100).render("TU-PAC", True, "Yellow")
+    LOGO_TEXT = get_logo(100).render("TWO-PAC", True, "Yellow")
     LOGO_RECT = LOGO_TEXT.get_rect(center=(450, 180))
 
     START_TEXT = get_font(50).render("START[S]", True, "Blue")
@@ -48,10 +48,35 @@ def main_menu(screen, root):
                     if wl:
                         print("won level")
                         vic_track.append(('Won', 4))
-                        change_screen_win_screen()
+                        change_screen_win_screen(wl)
+                        wl, num_shards = pacman.run_game(root.right, 0, None)
+                        if wl:
+                            # won second game
+                            vic_track.append(('Won', 4))
+                            change_screen_win_screen(wl)
+                            wl, num_shards = pacman.run_game(root.right.right, 0, None)
+                        else:
+                            # lost second game
+                            vic_track.append(('Loss', num_shards))
+                            change_screen_win_screen(wl)
+                            wl, num_shards = pacman.run_game(root.right.left, 0, None)
+
                     else:
                         print("lost level")
                         vic_track.append(('Loss', num_shards))
+                        change_screen_win_screen(wl)
+                        wl, num_shards = pacman.run_game(root.left, 0, None)
+                        if wl:
+                            # won second game
+                            vic_track.append(('Won', 4))
+                            change_screen_win_screen(wl)
+                            wl, num_shards = pacman.run_game(root.left.right, 0, None)
+                        else:
+                            # lost second game
+                            vic_track.append(('Loss', num_shards))
+                            change_screen_win_screen(wl)
+                            wl, num_shards = pacman.run_game(root.left.left, 0, None)
+
                 elif event.key == pygame.K_p:
                     # xxx.run()
                     # TODO: show photos
@@ -61,20 +86,18 @@ def main_menu(screen, root):
 
     pygame.quit()
 
-def change_screen_win_screen():
+def change_screen_win_screen(wl):
     screen = pygame.display.set_mode([900, 950])
-    half_height = screen.get_height//2
-    half_width = screen.get_width//2
+    half_height = screen.get_height()//2
+    half_width = screen.get_width()//2
     
     RESULT = get_font(85).render(f"You ", True, "White")
     RESULT_RECT = RESULT.get_rect(center=(half_width, 100))
     
-    half_width = screen.get_width() // 2
+    half_width = screen.get_width()//2
     image_height = screen.get_height()
-    render_text(screen,"Press R to return",(half_width,half_height),pygame.font.SysFont('Arial', 28),"white",half_width)
-
-
-    vic_track = []
+    render_text(screen, f"You {wl}!", (half_width // 1.1, half_height // 1.1), pygame.font.SysFont('Arial', 28),"white",half_width)
+    render_text(screen,"Press R to return",(half_width // 1.2,half_height),pygame.font.SysFont('Arial', 28),"white",half_width)
     
     run = True
     while run:
@@ -87,7 +110,7 @@ def change_screen_win_screen():
                     
         pygame.display.update()
         pygame.display.flip()
-# main_menu()
+
 
 def render_text(surface, text, pos, font, color, max_width):
     """
