@@ -34,7 +34,8 @@ def main_menu(screen, root):
     screen.blit(START_TEXT, START_RECT)
     screen.blit(PHOTOS_TEXT, PHOTOS_RECT)
     screen.blit(LOGO_PIC, LOGO_PIC.get_rect(center=(450, 780)))
-    
+
+    vic_track = []
     
     run = True
     while run:
@@ -46,8 +47,10 @@ def main_menu(screen, root):
                     wl, num_shards = pacman.run_game(root, 0, None)
                     if wl:
                         print("won level")
+                        vic_track.append(('Won', 4))
                     else:
                         print("lost level")
+                        vic_track.append(('Loss', num_shards))
                 elif event.key == pygame.K_p:
                     # xxx.run()
                     # TODO: show photos
