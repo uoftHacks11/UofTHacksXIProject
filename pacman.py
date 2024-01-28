@@ -22,6 +22,38 @@ class Shard():
         self.split = split # split in ["left", "right", "up", "down"]
         self.caption = caption
         self.story = story
+    
+    
+def render_text(surface, text, pos, font, color, max_width):
+    """
+    Render text on the given surface with word wrapping.
+
+    :param surface: Pygame surface where text will be drawn.
+    :param text: The text to be rendered.
+    :param pos: A tuple (x, y) where the text begins.
+    :param font: Pygame font object used for rendering text.
+    :param color: Color of the text.
+    :param max_width: Maximum width in pixels for text lines.
+    """
+    words = text.split()
+    space = 10 # Width of a space.
+    max_height = font.get_height()
+    x, y = pos
+    line = []
+
+    for word in words:
+        # Check width of the line with the new word added
+        line_width, _  = font.size(' '.join(line + [word]))
+        if line_width <= max_width:
+            line.append(word)
+        else:
+            # Draw the line and start a new one
+            surface.blit(font.render(' '.join(line), True, color), (x, y))
+            y += max_height  # Move to the next line
+            line = [word]
+
+    if line:
+        surface.blit(font.render(' '.join(line), True, color), (x, y))    
         
 
 def change_screen_shard_collected(screen, width, height, shard_list):
@@ -32,8 +64,7 @@ def change_screen_shard_collected(screen, width, height, shard_list):
     total_story = total_story.split('. ')
     curr_caption = shard_list[SPLIT_COUNT].caption
     
-    story_level = " ".join(total_story[:3 - SPLIT_COUNT + 1])
-    print(story_level)
+    story_level = ". ".join(total_story[:3 - SPLIT_COUNT + 1])
     SPLIT_COUNT -= 1
                 
     cont = True
@@ -49,11 +80,14 @@ def change_screen_shard_collected(screen, width, height, shard_list):
         image_height = screen.get_height()
         image = pygame.transform.scale(image, (half_width//1.15, image_height//2.25))
         screen.blit(image, (0, 200))
-
+        #screen.blit(curr_caption,(half_width,0))
         
-        text = pygame.font.SysFont('Arial', 20).render(story_level, True, (255, 255, 255))
-        text_rect = text.get_rect(center=(650, 250))
+        text = pygame.font.SysFont('Arial', 20).render(curr_caption, True, (255,255,255))
+        text_rect = text.get_rect(center=(650,250))
         screen.blit(text, text_rect)
+
+        render_text(screen,story_level,(half_width,image_height//2),pygame.font.SysFont('Arial', 28),"white",half_width)
+        # render_text(screen,curr_caption,(half_width,image_height),pygame.font.SysFont('Arial', 28),"white",half_width)
         pygame.display.update()
 
     return None
