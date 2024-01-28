@@ -32,7 +32,7 @@ def change_screen_shard_collected(screen, width, height, shard_list):
     total_story = total_story.split('. ')
     curr_caption = shard_list[SPLIT_COUNT].caption
     
-    story_level = total_story[:3 - SPLIT_COUNT + 1][0]
+    story_level = " ".join(total_story[:3 - SPLIT_COUNT + 1])
     print(story_level)
     SPLIT_COUNT -= 1
                 
@@ -51,7 +51,7 @@ def change_screen_shard_collected(screen, width, height, shard_list):
         screen.blit(image, (0, 200))
 
         
-        text = pygame.font.Font('freesansbold.ttf', 20).render(story_level, True, (255, 255, 255))
+        text = pygame.font.SysFont('Arial', 20).render(story_level, True, (255, 255, 255))
         text_rect = text.get_rect(center=(650, 250))
         screen.blit(text, text_rect)
         pygame.display.update()

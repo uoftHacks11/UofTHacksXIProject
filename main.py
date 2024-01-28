@@ -1,6 +1,6 @@
 import pygame
-import sys
-import math
+import os
+import random
 from pacman import run_game
 from board import boards, test_board, randomize_board
 from generate import create_game_tree, populate_tree, print_tree
@@ -10,7 +10,21 @@ import start_screen
 WIDTH = 900
 HEIGHT = 950
 
-imgs = ['./images/biking.jpg', './images/monke.jpg', './images/rohan.jpeg']
+def find_and_return_random_files(folder_path):
+    if not os.path.isdir(folder_path):
+        raise ValueError("Invalid folder path")
+    
+    all_files = os.listdir(folder_path)
+
+    image_files = [file for file in all_files if file.lower().endswith(('.jpg', '.jpeg', '.png'))]
+
+    if len(image_files) < 3:
+        raise ValueError("There are not enough image files in the folder")
+
+    random_files = random.sample(image_files, 3)
+    return [os.path.join(folder_path, file) for file in random_files]
+
+imgs = find_and_return_random_files('./images')
 captions = predict_step(imgs)
 root = None
 
