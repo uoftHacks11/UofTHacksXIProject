@@ -1400,6 +1400,15 @@ def run_game(root, tree_level, victory_tracker, board = None):
                     direction_command = direction
                 if event.key == pygame.K_m:
                     mute = not mute
+                
+                if event.key == pygame.K_1:
+                    shards[0] = 1
+                if event.key == pygame.K_2:
+                    shards[0] = 2
+                if event.key == pygame.K_3:
+                    shards[0] = 3
+                if event.key == pygame.K_4:
+                    shards[0] = 4
                 if event.key == pygame.K_w:
                     # automatic win condition for demo and stuff
                     shards[0] = 4
@@ -1426,6 +1435,10 @@ def run_game(root, tree_level, victory_tracker, board = None):
             pinky_dead = False
         if clyde.in_box and clyde_dead:
             clyde_dead = False
+            
+        # Game end
+        if shards[0] == 4:
+            run = False
 
         pygame.display.flip()
     pygame.quit()
