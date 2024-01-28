@@ -1,5 +1,6 @@
 import pygame
 from generate import print_tree
+from board import boards, test_board, return_board
 import sys
 import pacman
 # TODO: import view photo files
@@ -44,48 +45,61 @@ def main_menu(screen, root, imgs):
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    wl, num_shards = pacman.run_game(root, 0, None)
+                    test_board = return_board()
+                    wl, num_shards = pacman.run_game(root, 0, None, board=test_board)
                     if wl:
                         print("won level")
                         vic_track.append(('Won', 4))
                         change_screen_win_screen(wl)
-                        wl, num_shards = pacman.run_game(root.right, 0, None)
+                        test_board = return_board()
+                        wl, num_shards = pacman.run_game(root.right, 0, None, board=test_board)
                         if wl:
                             # won second game
                             vic_track.append(('Won', 4))
                             change_screen_win_screen(wl)
-                            wl, num_shards = pacman.run_game(root.right.right, 0, None)
+                            test_board = return_board()
+                            wl, num_shards = pacman.run_game(root.right.right, 0, None, board=test_board)
                         else:
                             # lost second game
                             vic_track.append(('Loss', num_shards))
                             change_screen_win_screen(wl)
-                            wl, num_shards = pacman.run_game(root.right.left, 0, None)
+                            test_board = return_board()
+                            wl, num_shards = pacman.run_game(root.right.left, 0, None, board=test_board)
 
                     else:
                         print("lost level")
                         vic_track.append(('Loss', num_shards))
                         change_screen_win_screen(wl)
-                        wl, num_shards = pacman.run_game(root.left, 0, None)
+                        test_board = return_board()
+                        wl, num_shards = pacman.run_game(root.left, 0, None, board=test_board)
                         if wl:
                             # won second game
                             vic_track.append(('Won', 4))
                             change_screen_win_screen(wl)
-                            wl, num_shards = pacman.run_game(root.left.right, 0, None)
+                            test_board = return_board()
+                            wl, num_shards = pacman.run_game(root.left.right, 0, None, board=test_board)
                         else:
                             # lost second game
                             vic_track.append(('Loss', num_shards))
                             change_screen_win_screen(wl)
-                            wl, num_shards = pacman.run_game(root.left.left, 0, None)
+                            test_board = return_board()
+                            wl, num_shards = pacman.run_game(root.left.left, 0, None, board=test_board)
 
                 elif event.key == pygame.K_p:
-                    view_photos(imgs)
+                    view_photos(screen, imgs)
+                    screen = pygame.display.set_mode([900, 950])
+                    pygame.display.set_caption("Menu")
+                    screen.blit(MENU_TEXT, MENU_RECT)
+                    screen.blit(LOGO_TEXT, LOGO_RECT)
+                    screen.blit(START_TEXT, START_RECT)
+                    screen.blit(PHOTOS_TEXT, PHOTOS_RECT)
+                    screen.blit(LOGO_PIC, LOGO_PIC.get_rect(center=(450, 780)))
                     
         pygame.display.update()
         pygame.display.flip()
 
-    pygame.quit()
 
-def view_photos(imgs):
+def view_photos(screen, imgs):
     # imgs = ['file.jpg', 'photo.png']
     screen = pygame.display.set_mode([900, 950])
     pygame.display.set_caption("Photos")
@@ -94,7 +108,6 @@ def view_photos(imgs):
     PHOTOS_RECT = PHOTOS_TEXT.get_rect(center=(450, 150))
 
     screen.blit(PHOTOS_TEXT, PHOTOS_RECT)
-    
     
     image_width, image_height = 300, 300  # Size of each image
     padding = 20  # Space between images
@@ -119,11 +132,14 @@ def view_photos(imgs):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-    
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    run = False
+                    
         pygame.display.update()
         pygame.display.flip()
-    pygame.quit()
 
+    #return None
 
 def change_screen_win_screen(wl):
     screen = pygame.display.set_mode([900, 950])
