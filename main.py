@@ -50,7 +50,7 @@ if __name__ == "__main__":
     pygame.display.flip()
 
     root = create_game_tree(imgs)
-    loadingComplete = populate_tree(root, captions)
+    root = populate_tree(root, captions)
 
     # loadingComplete = False
 

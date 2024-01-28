@@ -171,7 +171,7 @@ def populate_tree(root, captions):
 
     print('Population completed.')
 
-    return True
+    return root
 
 # def _expand_tree(node, current_level, max_level):
 #     if current_level == max_level:
@@ -187,6 +187,7 @@ def populate_tree(root, captions):
 #     # _expand_tree(node.right, current_level + 1, max_level)
 
 def print_tree(root, level=0, prefix="Root: ", state=""):
+    
     if root is not None:
         if level == 0:
             print(f"{prefix}{root.caption} - {root.state} ({root.level})")

@@ -1,4 +1,5 @@
 import pygame
+from generate import print_tree
 import sys
 import pacman
 # TODO: import view photo files
@@ -33,7 +34,7 @@ def main_menu(screen, root):
     screen.blit(START_TEXT, START_RECT)
     screen.blit(PHOTOS_TEXT, PHOTOS_RECT)
     screen.blit(LOGO_PIC, LOGO_PIC.get_rect(center=(450, 780)))
-
+    
     
     run = True
     while run:
@@ -42,7 +43,7 @@ def main_menu(screen, root):
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    pacman.run_game(root, None, 0)
+                    pacman.run_game(root, 0, None)
                 elif event.key == pygame.K_p:
                     # xxx.run()
                     # TODO: show photos

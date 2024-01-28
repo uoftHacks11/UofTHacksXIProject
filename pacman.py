@@ -1,6 +1,7 @@
 # Build Pac-Man from Scratch in Python with PyGame!!
 import copy
 from board import boards, test_board
+from generate import print_tree
 import pygame
 import math
 from trees import Story, Tree
@@ -30,7 +31,9 @@ def change_screen_shard_collected(screen, width, height, shard_list):
     total_story = shard_list[SPLIT_COUNT].story
     total_story = total_story.split('. ')
     curr_caption = shard_list[SPLIT_COUNT].caption
-    story_level = total_story[:3 - SPLIT_COUNT + 1]
+    
+    story_level = total_story[:3 - SPLIT_COUNT + 1][0]
+    print(story_level)
     SPLIT_COUNT -= 1
                 
     cont = True
@@ -42,13 +45,78 @@ def change_screen_shard_collected(screen, width, height, shard_list):
                 if event.key == pygame.K_r:  
                     cont = False
 
-        screen.blit(image, (0, 0))
+        half_width = screen.get_width() // 2
+        image_height = screen.get_height()
+        image = pygame.transform.scale(image, (half_width//1.15, image_height//2.25))
+        screen.blit(image, (0, 200))
+
+        
+        text = pygame.font.Font('freesansbold.ttf', 20).render(story_level, True, (255, 255, 255))
+        text_rect = text.get_rect(center=(650, 250))
+        screen.blit(text, text_rect)
         pygame.display.update()
 
     return None
 
+# def change_screen_shard_collected(screen, width, height, shard_list):
+#     global SPLIT_COUNT
+#     screen = pygame.display.set_mode([width, height])
+#     image = shard_list[SPLIT_COUNT].image
+#     total_story = shard_list[SPLIT_COUNT].story
+#     total_story = total_story.split('. ')
+#     curr_caption = shard_list[SPLIT_COUNT].caption
+#     story_level = total_story[:3 - SPLIT_COUNT + 1]
+#     SPLIT_COUNT -= 1
 
-def run_game(root, level, victory_tracker, board = None):
+#     font = pygame.font.Font('freesansbold.ttf', 20)
+#     text_color = (255, 255, 255)  # White color
+
+#     # Function to split the caption into multiple lines
+#     def split_caption(caption, line_width):
+#         words = caption.split(' ')
+#         lines = []
+#         current_line = ''
+#         for word in words:
+#             if font.size(current_line + word)[0] <= line_width:
+#                 current_line += word + ' '
+#             else:
+#                 lines.append(current_line)
+#                 current_line = word + ' '
+#         lines.append(current_line)
+#         return lines
+
+#     caption_lines = split_caption(curr_caption, 880)  # Assuming 880 pixels wide text box
+
+#     cont = True
+#     while cont:
+#         for event in pygame.event.get():
+#             if event.type == pygame.QUIT: 
+#                 cont = False
+#             if event.type == pygame.KEYDOWN:
+#                 if event.key == pygame.K_r:  
+#                     cont = False
+
+#         screen.blit(image, (0, 0))
+#         pygame.draw.rect(screen, (255, 255, 255), (0, 0, 100, 50), 3)
+#         text = font.render('Return', True, text_color)
+#         screen.blit(text, (10, 10))
+
+#         # Create text box for story
+#         pygame.draw.rect(screen, (0, 0, 0), (0, 600, 900, 350))
+#         pygame.draw.rect(screen, (255, 255, 255), (0, 600, 900, 350), 3)
+
+#         # Display each line of the caption
+#         line_height = font.get_height()
+#         for i, line in enumerate(caption_lines.join("")):
+#             text = font.render(line, True, text_color)
+#             screen.blit(text, (10, 610 + i * line_height))
+
+#         pygame.display.update()
+
+#     return None
+
+
+def run_game(root, tree_level, victory_tracker, board = None):
     WIDTH = 900
     HEIGHT = 950
     screen = pygame.display.set_mode([WIDTH, HEIGHT])
@@ -107,11 +175,19 @@ def run_game(root, level, victory_tracker, board = None):
     lives = 3
     game_over = False
     game_won = False
-    
+    caption = ''
+    story = ''
+    if tree_level == 0:
+        caption = root.caption
+        story = root.val
+    elif tree_level == 1:
+        pass
+    elif tree_level == 2:
+        pass
     img_pp = pygame.image.load("photo_piece.png").convert_alpha()
     img_pp = pygame.transform.scale(img_pp, (30,30))
-    split_image('./images/rohan.jpeg', './images', 'testingShard')
-    
+    split_image(root.image, './images', 'testingShard') #root.image
+    #split_image(image_path, destination_path, name
     img_pp1 = pygame.image.load('./images/testingShard/top_left.jpg').convert_alpha()
     img_pp2 = pygame.image.load('./images/testingShard/top_right.jpg').convert_alpha()
     img_pp3 = pygame.image.load('./images/testingShard/bottom_left.jpg').convert_alpha()
@@ -119,16 +195,7 @@ def run_game(root, level, victory_tracker, board = None):
     # shard_list = [img_pp1, img_pp2, img_pp3, img_pp4]
 
     # if level is not 0, traverse using victory_tracker to find correct image/story
-    caption = ''
-    story = ''
 
-    if level == 0:
-        caption = root.caption
-        story = root.story
-    elif level == 1:
-        pass
-    elif level == 2:
-        pass
 
     shard1 = Shard(sprite=None, image=img_pp1, split='left', caption=caption, story=story)
     shard2 = Shard(sprite=None, image=img_pp2, split='right', caption=caption, story=story)
