@@ -42,7 +42,7 @@ def main_menu(screen, root):
                 run = False
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_s:
-                    pacman.run_game(root)
+                    pacman.run_game(root, None, 0)
                 elif event.key == pygame.K_p:
                     # xxx.run()
                     # TODO: show photos
