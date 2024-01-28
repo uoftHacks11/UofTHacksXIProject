@@ -1,12 +1,12 @@
-# UofTHacksXI Project: Tu-Pac
+# UofTHacksXI Project: Two-Pac
 
-Imagine piecing together your own memories and unlocking a brand new story while playing a timeless old-fashioned game... That's "Tu-Pac"! A revolutionary gaming experience where nostalgia meets innovation.
+Imagine piecing together your own memories and unlocking a brand new story while playing a timeless old-fashioned game... That's "Two-Pac"! A revolutionary gaming experience where nostalgia meets innovation.
 
 ## About the project
 
-Tu-Pac is a Retro-Gamified Photo Album version of Pac-Man. For this project, we used Python, PyGame, Cohere API and an Object Detection Model.
+Two-Pac is a Retro-Gamified Photo Album version of Pac-Man. For this project, we used Python, PyGame, Cohere API and an Object Detection Model.
 
-[comment]: <> (Tu-Pac is more than just a game, it's a pioneer in the fusion of AI, personal narrative, and retro gaming.)
+[comment]: <> (Tow-Pac is more than just a game, it's a pioneer in the fusion of AI, personal narrative, and retro gaming.)
 
 ## How it works
 
