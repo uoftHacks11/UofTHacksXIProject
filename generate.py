@@ -4,8 +4,8 @@ from image_captioning import predict_step
 from dotenv import load_dotenv
 from binary_tree import *
 load_dotenv()
-
-api_key = os.getenv('COHERE_API_KEY')
+api_key= os.getenv('COHERE_API_KEY')
+api_key = os.getenv(api_key)
 co = cohere.Client(api_key)
 
 
