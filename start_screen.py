@@ -78,13 +78,52 @@ def main_menu(screen, root, imgs):
                             wl, num_shards = pacman.run_game(root.left.left, 0, None)
 
                 elif event.key == pygame.K_p:
-                    # xxx.run()
-                    # TODO: show photos
-                    pass
+                    view_photos(imgs)
+                    
         pygame.display.update()
         pygame.display.flip()
 
     pygame.quit()
+
+def view_photos(imgs):
+    # imgs = ['file.jpg', 'photo.png']
+    screen = pygame.display.set_mode([900, 950])
+    pygame.display.set_caption("Photos")
+
+    PHOTOS_TEXT = get_font(80).render("PHOTOS", True, "White")
+    PHOTOS_RECT = PHOTOS_TEXT.get_rect(center=(450, 150))
+
+    screen.blit(PHOTOS_TEXT, PHOTOS_RECT)
+    
+    
+    image_width, image_height = 300, 300  # Size of each image
+    padding = 20  # Space between images
+    images_per_row = 2  # Number of images per row
+
+    for index, image in enumerate(imgs):
+        row = index // images_per_row
+        col = index % images_per_row
+
+        total_row_width = images_per_row * image_width + (images_per_row - 1) * padding
+        start_x = (900 - total_row_width) // 2
+
+        x = start_x + col * (image_width + padding)
+        y = PHOTOS_RECT.bottom + padding + row * (image_height + padding)
+
+        IMG_PIC = pygame.image.load(image).convert()
+        IMG_PIC = pygame.transform.scale(IMG_PIC, (image_width, image_height))
+        screen.blit(IMG_PIC, (x, y))
+    
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+    
+        pygame.display.update()
+        pygame.display.flip()
+    pygame.quit()
+
 
 def change_screen_win_screen(wl):
     screen = pygame.display.set_mode([900, 950])
