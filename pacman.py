@@ -6,6 +6,7 @@ import pygame
 import math
 from trees import Story, Tree
 from splitImage import split_image
+from start_screen import change_screen_win_screen
 
 pygame.init()
 
@@ -88,6 +89,42 @@ def change_screen_shard_collected(screen, width, height, shard_list):
 
         render_text(screen,story_level,(half_width,image_height//2),pygame.font.SysFont('Arial', 28),"white",half_width)
         # render_text(screen,curr_caption,(half_width,image_height),pygame.font.SysFont('Arial', 28),"white",half_width)
+        pygame.display.update()
+
+    return None
+
+
+def change_screen_level_change(screen, width, height, shard_list):
+    global SPLIT_COUNT
+    screen = pygame.display.set_mode([width, height])
+    image = shard_list[SPLIT_COUNT].image
+    total_story = shard_list[SPLIT_COUNT].story
+    total_story = total_story.split('. ')
+    curr_caption = shard_list[SPLIT_COUNT].caption
+    
+    story_level = ". ".join(total_story[:3 - SPLIT_COUNT + 1])
+    SPLIT_COUNT -= 1
+                
+    cont = True
+    while cont:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: 
+                cont = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:  
+                    cont = False
+
+        half_width = screen.get_width() // 2
+        image_height = screen.get_height()
+        image = pygame.transform.scale(image, (half_width//1.15, image_height//2.25))
+        screen.blit(image, (0, 200))
+        # #screen.blit(curr_caption,(half_width,0))
+        
+        # text = pygame.font.SysFont('Arial', 20).render(curr_caption, True, (255,255,255))
+        # text_rect = text.get_rect(center=(650,250))
+        # screen.blit(text, text_rect)
+
+        # render_text(screen,story_level,(half_width,image_height//2),pygame.font.SysFont('Arial', 28),"white",half_width)
         pygame.display.update()
 
     return None
@@ -1238,6 +1275,7 @@ def run_game(root, tree_level, victory_tracker, board = None):
                 game_over = True
                 moving = False
                 startup_counter = 0
+                change_screen_win_screen()
         if powerup and player_circle.colliderect(inky.rect) and eaten_ghost[1] and not inky.dead:
             if lives > 0:
                 powerup = False
@@ -1446,7 +1484,7 @@ def run_game(root, tree_level, victory_tracker, board = None):
         pygame.display.flip()
     # pygame.quit()
         
-    return not lost_level
+    return not lost_level, shards[0]
 
 
 if __name__ == '__main__':

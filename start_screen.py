@@ -48,6 +48,7 @@ def main_menu(screen, root):
                     if wl:
                         print("won level")
                         vic_track.append(('Won', 4))
+                        change_screen_win_screen()
                     else:
                         print("lost level")
                         vic_track.append(('Loss', num_shards))
@@ -60,4 +61,61 @@ def main_menu(screen, root):
 
     pygame.quit()
 
+def change_screen_win_screen():
+    screen = pygame.display.set_mode([900, 950])
+    half_height = screen.get_height//2
+    half_width = screen.get_width//2
+    
+    RESULT = get_font(85).render(f"You ", True, "White")
+    RESULT_RECT = RESULT.get_rect(center=(half_width, 100))
+    
+    half_width = screen.get_width() // 2
+    image_height = screen.get_height()
+    render_text(screen,"Press R to return",(half_width,half_height),pygame.font.SysFont('Arial', 28),"white",half_width)
+
+
+    vic_track = []
+    
+    run = True
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_r:
+                    run = False
+                    
+        pygame.display.update()
+        pygame.display.flip()
 # main_menu()
+
+def render_text(surface, text, pos, font, color, max_width):
+    """
+    Render text on the given surface with word wrapping.
+
+    :param surface: Pygame surface where text will be drawn.
+    :param text: The text to be rendered.
+    :param pos: A tuple (x, y) where the text begins.
+    :param font: Pygame font object used for rendering text.
+    :param color: Color of the text.
+    :param max_width: Maximum width in pixels for text lines.
+    """
+    words = text.split()
+    space = 10 # Width of a space.
+    max_height = font.get_height()
+    x, y = pos
+    line = []
+
+    for word in words:
+        # Check width of the line with the new word added
+        line_width, _  = font.size(' '.join(line + [word]))
+        if line_width <= max_width:
+            line.append(word)
+        else:
+            # Draw the line and start a new one
+            surface.blit(font.render(' '.join(line), True, color), (x, y))
+            y += max_height  # Move to the next line
+            line = [word]
+
+    if line:
+        surface.blit(font.render(' '.join(line), True, color), (x, y))   
